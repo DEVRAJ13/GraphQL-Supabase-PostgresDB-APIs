@@ -1,0 +1,56 @@
+scalar BigInt
+scalar DateTime
+type Users {
+    id: ID!
+    email: String!
+    password: String
+    fullName: String
+    phoneNumber: String
+    jobTitle: String
+    department: String
+    organization: String
+    designation: String
+    city: String
+    state: String
+    country: String
+    address: String
+    postalCode: String
+    imageUrl: String
+    role: String
+    lastLoginAt: DateTime
+    isActive: Boolean
+    isDeleted: Boolean
+    lastPasswordResetAt: DateTime
+    failedLoginAttempts: Int
+    lastFailedLoginAt: DateTime
+    accountLockedUntil: DateTime
+    timezone: String
+    language: String
+    createdAt: DateTime
+    updatedAt: DateTime
+}
+
+type Query {
+    getUserById(id: ID!): Users
+}
+
+type Mutation {
+    createUser(email:String!, password:String!):Users!
+    updateUser(
+      id: ID!
+      fullName: String
+      phoneNumber: String
+      jobTitle: String
+      department: String
+      organization: String
+      designation: String
+      city: String
+      state: String
+      country: String
+      address: String
+      postalCode: String
+      imageUrl: String
+      timezone: String
+      language: String
+    ): Users!
+}
