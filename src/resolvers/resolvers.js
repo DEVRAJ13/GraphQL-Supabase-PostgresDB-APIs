@@ -1,10 +1,18 @@
 import { GraphQLError } from "graphql";
-import { createUserService, updateUserService, getUserByIdService } from "../services/services.js";
+import { createUserService, updateUserService, getUserByIdService, getAllUsersService } from "../services/services.js";
 
 export const resolvers = {
     Query: {
         getUserById: async (_, { id }) => {
             return await getUserByIdService(id);
+        },
+        getAllUsers: async (_, args) => {
+            try {
+                return await getAllUsersService(args);
+            } catch (error) {
+                console.error("Error in getAllUsers resolver:", error);
+                throw new Error(error.message || "INTERNAL_SERVER_ERROR");
+            }
         },
     },
     Mutation: {
@@ -12,6 +20,7 @@ export const resolvers = {
             try {
                 return await createUserService(email, password);
             } catch (error) {
+                console.error("Error in createUser resolver:", error);
                 if (error.code === "EMAIL_ALREADY_EXISTS") {
                     throw new GraphQLError("Email already registered.", {
                         extensions: { code: "EMAIL_ALREADY_EXISTS" },

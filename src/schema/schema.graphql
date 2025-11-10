@@ -1,5 +1,6 @@
 scalar BigInt
 scalar DateTime
+scalar ID
 type Users {
     id: ID!
     email: String!
@@ -32,10 +33,27 @@ type Users {
 
 type Query {
     getUserById(id: ID!): Users
+    getAllUsers(
+    page: Int = 1
+    limit: Int = 10
+    search: String
+    role: String
+    department: String
+    isActive: Boolean
+    sortBy: String = "createdAt"
+    sortOrder: String = "desc"
+  ): UsersPage!
+}
+
+type UsersPage {
+  users: [Users!]!
+  totalUsers: Int!
+  totalPages: Int!
+  currentPage: Int!
 }
 
 type Mutation {
-    createUser(email:String!, password:String!):Users!
+    createUser(email:String!, password:String!):Users
     updateUser(
       id: ID!
       fullName: String
